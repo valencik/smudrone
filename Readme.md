@@ -1,8 +1,31 @@
------------------------------------------------------------------
+CVDrone
+===
+
+To run:
+
+```
+cd build/linux
+make
+./test.a
+```
+
+The samples directory is filled with awesome uses for the library. Make a backup of _src/main.cpp_ and then copy them into _src/_ as _main.cpp_
+
+```
+mv src/main.cpp src/main.cpp.old
+cp samples/[file] src/main.cpp
+cd build/linux
+make clean
+make
+```
+
+CVDrone Readme.txt
+===
+
  CV Drone (= OpenCV + AR.Drone)
  Copyright (C) 2014 puku0x
  https://github.com/puku0x/cvdrone
------------------------------------------------------------------
+
 
 INTRODUCTION
   CV Drone is free software; you can redistribute it and/or
