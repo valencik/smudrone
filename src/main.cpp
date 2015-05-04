@@ -172,3 +172,12 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+void handleInput(ARDrone drone,int key) {
+  switch(key) {
+    case ' ':
+      if(ardrone.onGround()) ardrone.takeoff();
+      else                   ardrone.landing();
+      break;
+  }
+}
