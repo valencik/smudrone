@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    std::cout << "Battery = " << ardrone.getBatteryPercentage() << "[%]" << std::endl;
+
     // Thresholds
     int minH = 0, maxH = 255;
     int minS = 0, maxS = 255;
@@ -185,8 +187,10 @@ int main(int argc, char *argv[])
 }
 
 void moveDrone(ARDrone *ardrone, cv::Mat *image, cv::Mat1f *prediction) {
-    double vx = 0.2, vy = 0.0, vz = 0.0, vr = 0.0; //headings
-    vr = -((image->cols/2)-(*prediction)(0, 0))/(image->cols/2); //rotate towards prediction
+    double vx = 0.3, vy = 0.0, vz = 0.0, vr = 0.0; //headings
+    vr = ((image->cols/2)-(*prediction)(0, 0))/(image->cols/2); //rotate towards prediction
+    // Maintain ideal height
+    std::cout << ardrone->getAltitude(); << "\n";
     ardrone->move3D(vx, vy, vz, vr); //move drone towards marker
 }
 
