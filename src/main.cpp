@@ -190,3 +190,13 @@ void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction) {
 void rotateDrone(ARDrone ardrone) {
     ardrone.move3D(0.0, 0.0, 0.0, -1.0);
 }
+
+// Need to get input from cv::waitKey(int)
+void handleInput(ARDrone drone,int key) {
+  switch(key) {
+    case ' ':
+      if(ardrone.onGround()) ardrone.takeoff();
+      else                   ardrone.landing();
+      break;
+  }
+}
