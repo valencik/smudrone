@@ -85,6 +85,9 @@ int main(int argc, char *argv[])
           0.0, 1e-1;
     kalman.measurementNoiseCov = R;
 
+    //Lets fly
+    ardrone.takeoff();
+
     // Main loop
     while (1) {
         // Key input
@@ -190,4 +193,14 @@ void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction) {
 
 void rotateDrone(ARDrone ardrone) {
     ardrone.move3D(0.0, 0.0, 0.0, -1.0);
+}
+
+// Need to get input from cv::waitKey(int)
+void handleInput(ARDrone drone,int key) {
+  switch(key) {
+    case ' ':
+      if(ardrone.onGround()) ardrone.takeoff();
+      else                   ardrone.landing();
+      break;
+  }
 }
