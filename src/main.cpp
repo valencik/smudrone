@@ -151,6 +151,9 @@ int main(int argc, char *argv[])
         cv::Mat1f prediction = kalman.predict();
         int radius = 1e+3 * kalman.errorCovPre.at<float>(0, 0);
 
+        std::cout << prediction << std::endl;
+        std::cout << prediction(0, 0) << std::endl;
+
         // Show predicted position
         cv::circle(image, cv::Point(prediction(0, 0), prediction(0, 1)), radius, cv::Scalar(0, 255, 0), 2);
 
