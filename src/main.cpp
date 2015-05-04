@@ -84,7 +84,14 @@ int main(int argc, char *argv[])
           0.0, 1e-1;
     kalman.measurementNoiseCov = R;
 
-    //Lets fly
+    // Give us time to train the drone
+    bool training = true;
+    while(training) {
+      int key = cv::waitKey(100);
+      if(key=' ') training=false;
+    }
+
+    // Lets fly!
     ardrone.takeoff();
 
     // Main loop
