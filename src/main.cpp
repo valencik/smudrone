@@ -5,9 +5,10 @@
 // Description  : This is the entry point of the program.
 // Return value : SUCCESS:0  ERROR:-1
 // --------------------------------------------------------------------------
-void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction);
 
+void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction);
 void rotateDrone(ARDrone ardrone);
+void handleInput(ARDrone drone,int key);
 
 int main(int argc, char *argv[])
 {
@@ -85,21 +86,12 @@ int main(int argc, char *argv[])
           0.0, 1e-1;
     kalman.measurementNoiseCov = R;
 
-    // Give us time to train the drone
-    bool training = true;
-    while(training) {
-      int key = cv::waitKey(100);
-      if(key=' ') training=false;
-    }
-
-    // Lets fly!
-    ardrone.takeoff();
-
     // Main loop
     while (1) {
         // Key input
         int key = cv::waitKey(33);
         if (key == 0x1b) break;
+        handleInput(ardrone,key);
 
         // Get an image
         cv::Mat image = ardrone.getImage();
@@ -206,8 +198,9 @@ void rotateDrone(ARDrone ardrone) {
 void handleInput(ARDrone drone,int key) {
   switch(key) {
     case ' ':
-      if(ardrone.onGround()) ardrone.takeoff();
-      else                   ardrone.landing();
+      // Lets fly!
+      if(drone.onGround()) drone.takeoff();
+      else                   drone.landing();
       break;
   }
 }
