@@ -26,10 +26,11 @@ int main(int argc, char *argv[])
     int minV = 0, maxV = 255;
 
     // XML save data
+    cv::FileStorage fs;
     std::string filename("thresholds.xml");
-    cv::FileStorage fs(filename, cv::FileStorage::READ);
 
     // If there is a save file then read it
+    fs.open(filename, cv::FileStorage::READ);
     if (fs.isOpened()) {
         maxH = fs["H_MAX"];
         minH = fs["H_MIN"];
