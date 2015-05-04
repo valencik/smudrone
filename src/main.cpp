@@ -6,9 +6,9 @@
 // Return value : SUCCESS:0  ERROR:-1
 // --------------------------------------------------------------------------
 
-void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction);
-void rotateDrone(ARDrone ardrone);
-void handleInput(ARDrone drone,int key);
+void moveDrone(ARDrone *ardrone, cv::Mat *image, cv::Mat1f *prediction);
+void rotateDrone(ARDrone *ardrone);
+void handleInput(ARDrone *drone, int key);
 
 int main(int argc, char *argv[])
 {
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
         // Key input
         int key = cv::waitKey(33);
         if (key == 0x1b) break;
-        handleInput(ardrone,key);
+        handleInput(&ardrone,key);
 
         // Get an image
         cv::Mat image = ardrone.getImage();
@@ -159,10 +159,10 @@ int main(int argc, char *argv[])
 
         // Either move or rotate based on whether we found a target
         if (contour_index >= 0) {
-            moveDrone(ardrone, image, prediction);
+            moveDrone(&ardrone, &image, &prediction);
         }
         else {
-            rotateDrone(ardrone);
+            rotateDrone(&ardrone);
         }
     }
 
@@ -184,23 +184,23 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction) {
+void moveDrone(ARDrone *ardrone, cv::Mat *image, cv::Mat1f *prediction) {
     double vx = 0.2, vy = 0.0, vz = 0.0, vr = 0.0; //headings
-    vr = -((image.cols/2)-prediction(0, 0))/(image.cols/2); //rotate towards prediction
-    ardrone.move3D(vx, vy, vz, vr); //move drone towards marker
+    vr = -((image->cols/2)-(*prediction)(0, 0))/(image->cols/2); //rotate towards prediction
+    ardrone->move3D(vx, vy, vz, vr); //move drone towards marker
 }
 
-void rotateDrone(ARDrone ardrone) {
-    ardrone.move3D(0.0, 0.0, 0.0, -1.0);
+void rotateDrone(ARDrone *ardrone) {
+    ardrone->move3D(0.0, 0.0, 0.0, -1.0);
 }
 
 // Need to get input from cv::waitKey(int)
-void handleInput(ARDrone drone,int key) {
+void handleInput(ARDrone *drone,int key) {
   switch(key) {
     case ' ':
       // Lets fly!
-      if(drone.onGround()) drone.takeoff();
-      else                   drone.landing();
+      if(drone->onGround()) drone->takeoff();
+      else                   drone->landing();
       break;
   }
 }
