@@ -149,6 +149,10 @@ int main(int argc, char *argv[])
 
         // Display the image
         cv::imshow("camera", image);
+
+        double vx = 0.2, vy = 0.0, vz = 0.0, vr = 0.0; //headings
+        vr = -((image.cols/2)-prediction(0, 0))/(image.cols/2); //rotate towards prediction
+        ardrone.move3D(vx, vy, vz, vr); //move drone towards marker
     }
 
     // Save thresholds
