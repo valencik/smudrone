@@ -5,6 +5,10 @@
 // Description  : This is the entry point of the program.
 // Return value : SUCCESS:0  ERROR:-1
 // --------------------------------------------------------------------------
+void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction);
+
+void rotateDrone(ARDrone ardrone);
+
 int main(int argc, char *argv[])
 {
     // AR.Drone class
@@ -150,9 +154,13 @@ int main(int argc, char *argv[])
         // Display the image
         cv::imshow("camera", image);
 
-        double vx = 0.2, vy = 0.0, vz = 0.0, vr = 0.0; //headings
-        vr = -((image.cols/2)-prediction(0, 0))/(image.cols/2); //rotate towards prediction
-        ardrone.move3D(vx, vy, vz, vr); //move drone towards marker
+        // Either move or rotate based on whether we found a target
+        if (contour_index >= 0) {
+            moveDrone(ardrone, image, prediction);
+        }
+        else {
+            rotateDrone(ardrone);
+        }
     }
 
     // Save thresholds
@@ -171,4 +179,14 @@ int main(int argc, char *argv[])
     ardrone.close();
 
     return 0;
+}
+
+void moveDrone(ARDrone ardrone, cv::Mat image, cv::Mat1f prediction) {
+    double vx = 0.2, vy = 0.0, vz = 0.0, vr = 0.0; //headings
+    vr = -((image.cols/2)-prediction(0, 0))/(image.cols/2); //rotate towards prediction
+    ardrone.move3D(vx, vy, vz, vr); //move drone towards marker
+}
+
+void rotateDrone(ARDrone ardrone) {
+    ardrone.move3D(0.0, 0.0, 0.0, -1.0);
 }
