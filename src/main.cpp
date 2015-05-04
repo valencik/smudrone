@@ -84,6 +84,9 @@ int main(int argc, char *argv[])
           0.0, 1e-1;
     kalman.measurementNoiseCov = R;
 
+    //Lets fly
+    ardrone.takeoff();
+
     // Main loop
     while (1) {
         // Key input
