@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
           0.0, 1e-1;
     kalman.measurementNoiseCov = R;
 
+    ardrone.takeoff();
     // Main loop
     while (1) {
         // Key input
@@ -153,9 +154,6 @@ int main(int argc, char *argv[])
         cv::Mat1f prediction = kalman.predict();
         int radius = 1e+3 * kalman.errorCovPre.at<float>(0, 0);
 
-        std::cout << prediction << std::endl;
-        std::cout << prediction(0, 0) << std::endl;
-
         // Show predicted position
         cv::circle(image, cv::Point(prediction(0, 0), prediction(0, 1)), radius, cv::Scalar(0, 255, 0), 2);
 
@@ -190,10 +188,11 @@ int main(int argc, char *argv[])
 }
 
 void moveDrone(ARDrone *ardrone, cv::Mat *image, cv::Mat1f *prediction) {
-    double vx = 0.3, vy = 0.0, vz = 0.0, vr = 0.0; //headings
-    vr = ((image->cols/2)-(*prediction)(0, 0))/(image->cols/2); //rotate towards prediction
-    // Maintain ideal height
-    std::cout << ardrone->getAltitude() << "\n";
+    double vx = 0.5, //sane acceleration
+           vy = 0.0,
+           vz = 1.5-ardrone->getAltitude(), //keep constant height
+           // vr = rotate towards prediction
+           vr = ((image->cols/2)-(*prediction)(0, 0))/(image->cols/2);
     ardrone->move3D(vx, vy, vz, vr); //move drone towards marker
 }
 
