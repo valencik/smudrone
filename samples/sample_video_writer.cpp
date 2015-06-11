@@ -21,15 +21,21 @@ int main(int argc, char *argv[])
 
     // Image of AR.Drone's camera
     cv::Mat image = ardrone.getImage();
-    
+
     // Video name
     std::time_t t = std::time(NULL);
     std::tm *local = std::localtime(&t);
     std::ostringstream stream;
+    std::cout <<  image.cols << image.rows;
     stream << 1900 + local->tm_year << "-" << 1 + local->tm_mon << "-" << local->tm_mday << "-" << local->tm_hour << "-" << local->tm_min << "-" << local->tm_sec << ".avi";
 
     // Create a video writer
-    cv::VideoWriter writer(stream.str(), cv::VideoWriter::fourcc('D', 'I', 'B', ' '), 30, cv::Size(image.cols, image.rows));
+    cv::VideoWriter writer(stream.str(), CV_FOURCC('H', 'F', 'Y', 'U'), 20, cv::Size(image.cols, image.rows));
+
+    if(!writer.isOpened()) {
+        std::cout << "ERROR OPENING WRITER";
+        return -1;
+    }
 
     // Main loop
     while (1) {
@@ -40,8 +46,8 @@ int main(int argc, char *argv[])
         // Get an image
         image = ardrone.getImage();
 
-        // Write a frame
-        writer << image;
+
+        writer.write(image);
 
         // Display the image
         imshow("camera", image);
