@@ -1,3 +1,15 @@
+SMU Notes
+=========
+
+You need opencv, ffmpeg, and sdl2.
+I haven't worked out the exact minimal install, should be something like:
+
+```bash
+brew install ffmpeg
+brew install opencv --devel --with-ffmpeg
+brew install sdl2
+```
+
 CVDrone
 ===
 
