@@ -18,7 +18,14 @@ To run:
 ```
 cd build/linux
 make
-./test.a
+```
+
+To run on of the sample programs from (home dir of project):
+```
+cd src/
+cp ../sample/sampleFileName.cpp .
+./build.sh sampleFileName.cpp
+./sampleFileName.a
 ```
 
 The samples directory is filled with awesome uses for the library. Make a backup of _src/main.cpp_ and then copy them into _src/_ as _main.cpp_
@@ -80,7 +87,7 @@ FOR AR.DRONE 2.0 USERS
 
 FOR VS2010 USERS
   You can not build CV Drone by VS2010 after you installed VS2012.
-  To build VS2010, 
+  To build VS2010,
     1) You should install "Visual Studio 2010 SP1".  [Recommended]
     or,
     2) You should uninstall ".Net Framework 4.5" and re-install "4.0".
